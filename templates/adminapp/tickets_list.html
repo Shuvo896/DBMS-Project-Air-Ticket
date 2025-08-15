@@ -1,0 +1,20 @@
+{% extends 'adminapp/base_admin.html' %}
+{% block content %}
+<h2>Manage Tickets</h2>
+<a class="btn" href="{% url 'admin_panel:ticket_add' %}">➕ Add Ticket</a>
+
+<table>
+<tr><th>ID</th><th>From</th><th>To</th><th>Departure</th><th>Seats</th></tr>
+{% for ticket in tickets %}
+<tr>
+    <td>{{ ticket.id }}</td>
+    <td>{{ ticket.departure }}</td>
+    <td>{{ ticket.destination }}</td>
+    <td>{{ ticket.departure_time|date:"M d, Y H:i" }}</td>
+    <td>{{ ticket.available_seats }}/{{ ticket.total_seats }}</td>
+</tr>
+{% empty %}
+<tr><td colspan="5">No tickets found.</td></tr>
+{% endfor %}
+</table>
+{% endblock %}

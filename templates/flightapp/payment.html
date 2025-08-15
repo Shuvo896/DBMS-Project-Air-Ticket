@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Payment for Booking ({{ booking.ticket }})</h2>
+<p>Total Amount: {{ booking.ticket.discounted_price|default:booking.ticket.original_price|floatformat:2 }}</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Confirm Payment</button>
+</form>
+{% endblock %}

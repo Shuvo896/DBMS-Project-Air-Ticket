@@ -1,0 +1,17 @@
+{% extends 'adminapp/base_admin.html' %}
+{% block content %}
+<h2>All Users</h2>
+<table>
+<tr><th>Email</th><th>Username</th><th>Phone</th><th>Role</th></tr>
+{% for user in users %}
+<tr>
+    <td>{{ user.email }}</td>
+    <td>{{ user.username }}</td>
+    <td>{{ user.phone_no }}</td>
+    <td>{{ user.role }}</td>
+</tr>
+{% empty %}
+<tr><td colspan="4">No users found.</td></tr>
+{% endfor %}
+</table>
+{% endblock %}

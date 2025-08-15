@@ -1,0 +1,86 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f8f9fa;
+    color: #333;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    background: #0077b6;
+    padding: 10px 20px;
+}
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin-right: 15px;
+}
+.navbar .logo {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Container */
+.container {
+    padding: 20px;
+}
+
+/* Buttons */
+.btn, button {
+    background: #00b4d8;
+    padding: 6px 10px;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.btn:hover, button:hover {
+    background: #0096c7;
+}
+
+/* Search Form */
+.search-form fieldset {
+    background: #fff;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+/* Table */
+.flight-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+.flight-table th, .flight-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+.flight-table th {
+    background: #e9ecef;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 15px;
+    background: #0077b6;
+    color: white;
+    margin-top: 20px;
+}
+
+/* Notice list */
+.notice-list {
+    background: #fff3cd;
+    padding: 10px;
+    border-radius: 5px;
+    list-style: none;
+}
+
+/* Form pages */
+.form-page {
+    background: white;
+    padding: 15px;
+    border-radius: 5px;
+    max-width: 400px;
+}

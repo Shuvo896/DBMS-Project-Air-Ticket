@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1 class="page-title">Welcome to BookinFly</h1>
+
+<!-- Flight Search Form -->
+<form method="post" action="{% url 'home' %}" class="search-form">
+    {% csrf_token %}
+    <fieldset>
+        <legend>Search Available Flights</legend>
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </fieldset>
+</form>
+
+{% if search_results is not None %}
+    <h2>Search Results</h2>
+    {% if search_results %}
+        <table class="flight-table">
+            <tr>
+                <th>From</th>
+                <th>To</th>
+                <th>Departure</th>
+                <th>Arrival</th>
+                <th>Price</th>
+                <th>Seats Left</th>
+                <th>Action</th>
+            </tr>
+            {% for flight in search_results %}
+            <tr>
+                <td>{{ flight.departure }}</td>
+                <td>{{ flight.destination }}</td>
+                <td>{{ flight.departure_time|date:"D M d, Y H:i" }}</td>
+                <td>{{ flight.arrival_time|date:"D M d, Y H:i" }}</td>
+                <td>{{ flight.discounted_price|default:flight.original_price }}</td>
+                <td>{{ flight.available_seats }}</td>
+                <td>
+                    {% if user.is_authenticated %}
+                        <a class="btn" href="{% url 'seat_selection' flight.id %}">Book</a>
+                    {% else %}
+                        <a class="btn" href="{% url 'login' %}?next={% url 'seat_selection' flight.id %}">Login to Book</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No flights match your search.</p>
+    {% endif %}
+{% endif %}
+
+<!-- Notices -->
+<hr>
+<h2>Latest Notices</h2>
+<ul class="notice-list">
+    {% for notice in notices %}
+        <li><strong>{{ notice.title }}:</strong> {{ notice.message }}</li>
+    {% empty %}
+        <li>No current notices.</li>
+    {% endfor %}
+</ul>
+
+<!-- Frequent Trips (Logged in only) -->
+{% if user.is_authenticated %}
+<hr>
+<h2>Frequently Travelled</h2>
+{% if frequent_flights %}
+    <ul>
+    {% for flight in frequent_flights %}
+        <li>{{ flight.departure }} → {{ flight.destination }} on {{ flight.departure_time|date:"M d, Y" }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No frequent travel history yet.</p>
+{% endif %}
+
+<h2>Last Travelled Flight</h2>
+{% if last_flight %}
+    <p>{{ last_flight.departure }} → {{ last_flight.destination }} on {{ last_flight.departure_time|date:"M d, Y" }}</p>
+{% else %}
+    <p>You haven’t travelled yet.</p>
+{% endif %}
+{% endif %}
+
+{% endblock %}

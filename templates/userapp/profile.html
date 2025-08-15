@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>User Profile</h2>
+  <p><strong>Email:</strong> {{ user.email }}</p>
+  <p><strong>Username:</strong> {{ user.username }}</p>
+  <p><strong>Phone No:</strong> {{ user.phone_no }}</p>
+  <p><strong>Gender:</strong> {{ user.gender }}</p>
+  <p><strong>Date of Birth:</strong> {{ user.date_of_birth }}</p>
+  <p><strong>Nationality:</strong> {{ user.nationality }}</p>
+  <p><strong>Address:</strong> {{ user.address }}</p>
+  <p><strong>Postal Code:</strong> {{ user.postal_code }}</p>
+  <p><strong>Passport No:</strong> {{ user.passport_no }}</p>
+  {% if user.profile_picture %}
+    <img src="{{ user.profile_picture.url }}" alt="Profile Picture" width="150" height="150">
+  {% endif %}
+  <p><a href="{% url 'edit_profile' %}">Edit Profile</a></p>
+  <p><a href="{% url 'logout' %}">Logout</a></p>
+{% endblock %}

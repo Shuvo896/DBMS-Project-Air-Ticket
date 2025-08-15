@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BookinFly – Admin Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Admin Panel CSS -->
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+</head>
+<body>
+
+<nav class="admin-nav">
+    <a href="{% url 'admin_panel:dashboard' %}">Dashboard</a>
+    <a href="{% url 'admin_panel:location_list' %}">Locations</a>
+    <a href="{% url 'admin_panel:ticket_list' %}">Tickets</a>
+    <a href="{% url 'admin_panel:notice_list' %}">Notices</a>
+    <a href="{% url 'admin_panel:user_list' %}">Users</a>
+    <a href="{% url 'home' %}">Back to Site</a>
+</nav>
+
+<div class="admin-container">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

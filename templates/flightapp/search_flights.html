@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Search Flights</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Search</button>
+</form>
+
+<h3>Notices</h3>
+<ul>
+    {% for notice in notices %}
+        <li><strong>{{ notice.title }}</strong> - {{ notice.message }}</li>
+    {% empty %}
+        <li>No notices available</li>
+    {% endfor %}
+</ul>
+{% endblock %}

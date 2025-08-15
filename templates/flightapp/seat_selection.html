@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Seat Selection for {{ ticket }}</h2>
+<p>Available Seats: {{ ticket.available_seats }}</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Continue to Payment</button>
+</form>
+{% endblock %}

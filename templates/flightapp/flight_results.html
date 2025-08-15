@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Available Flights</h2>
+<table border="1">
+<tr>
+    <th>Departure</th>
+    <th>Destination</th>
+    <th>Departure Time</th>
+    <th>Arrival Time</th>
+    <th>Price</th>
+    <th>Seats Left</th>
+    <th>Action</th>
+</tr>
+{% for flight in flights %}
+<tr>
+    <td>{{ flight.departure }}</td>
+    <td>{{ flight.destination }}</td>
+    <td>{{ flight.departure_time }}</td>
+    <td>{{ flight.arrival_time }}</td>
+    <td>{{ flight.discounted_price|default:flight.original_price }}</td>
+    <td>{{ flight.available_seats }}</td>
+    <td><a href="{% url 'seat_selection' flight.id %}">Book</a></td>
+</tr>
+{% empty %}
+<tr><td colspan="7">No flights found</td></tr>
+{% endfor %}
+</table>
+{% endblock %}

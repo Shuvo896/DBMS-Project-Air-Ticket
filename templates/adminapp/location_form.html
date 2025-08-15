@@ -1,0 +1,9 @@
+{% extends 'adminapp/base_admin.html' %}
+{% block content %}
+<h2>{{ form.instance.id|yesno:"Edit Location,Add Location" }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+{% endblock %}

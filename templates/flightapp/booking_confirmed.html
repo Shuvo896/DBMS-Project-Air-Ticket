@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Booking Confirmed!</h2>
+<p>Booking ID: {{ booking.id }}</p>
+<p>Flight: {{ booking.ticket }}</p>
+<p>Seats: {{ booking.seats_booked }}</p>
+<p>Status: {{ booking.confirmed|yesno:"Confirmed,Pending" }}</p>
+<a href="{% url 'home' %}">Return Home</a>
+{% endblock %}
