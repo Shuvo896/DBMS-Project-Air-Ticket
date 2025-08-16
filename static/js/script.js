@@ -10,3 +10,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// script.js
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    
+    if (hamburger) {
+        hamburger.addEventListener('click', function() {
+            const navLeft = document.querySelector('.nav-left');
+            const navRight = document.querySelector('.nav-right');
+            
+            navLeft.classList.toggle('active');
+            navRight.classList.toggle('active');
+        });
+    }
+});

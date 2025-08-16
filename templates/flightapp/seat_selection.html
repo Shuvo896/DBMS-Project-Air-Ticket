@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Seat Selection for {{ ticket }}</h2>
-<p>Available Seats: {{ ticket.available_seats }}</p>
-<form method="post">
+<h2 class="page-title">Seat Selection for {{ ticket }}</h2>
+
+<div class="card inline-info">
+  <p><strong>Available Seats:</strong> {{ ticket.available_seats }}</p>
+</div>
+
+<form method="post" class="card form-page">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Continue to Payment</button>
+    <button type="submit" class="btn">Continue to Payment</button>
 </form>
 {% endblock %}

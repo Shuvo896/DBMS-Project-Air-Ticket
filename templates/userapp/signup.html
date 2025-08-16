@@ -1,10 +1,24 @@
+<!-- signup.html -->
 {% extends 'base.html' %}
 {% block content %}
-  <h2>Sign Up</h2>
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Sign Up</button>
-  </form>
-  <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+<div class="form-page">
+    <h2 class="page-title">Sign Up</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+                <small style="color: #666;">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+                <p style="color: red;">{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn">Sign Up</button>
+        <p style="margin-top: 1rem;">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+    </form>
+</div>
 {% endblock %}

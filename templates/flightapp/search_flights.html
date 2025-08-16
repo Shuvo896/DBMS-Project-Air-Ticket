@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Search Flights</h2>
-<form method="post">
+<h2 class="page-title">Search Flights</h2>
+<form method="post" class="card form-page">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Search</button>
+    <button type="submit" class="btn">Search</button>
 </form>
 
-<h3>Notices</h3>
-<ul>
+<h3 class="section-title">Notices</h3>
+<ul class="notice-list card">
     {% for notice in notices %}
-        <li><strong>{{ notice.title }}</strong> - {{ notice.message }}</li>
+        <li><strong>{{ notice.title }}</strong> — {{ notice.message }}</li>
     {% empty %}
         <li>No notices available</li>
     {% endfor %}

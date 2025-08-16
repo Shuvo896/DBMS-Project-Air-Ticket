@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Available Flights</h2>
-<table border="1">
+<h2 class="page-title">Available Flights</h2>
+
+<div class="table-wrap">
+<table class="flight-table">
+<thead>
 <tr>
     <th>Departure</th>
     <th>Destination</th>
@@ -11,6 +14,8 @@
     <th>Seats Left</th>
     <th>Action</th>
 </tr>
+</thead>
+<tbody>
 {% for flight in flights %}
 <tr>
     <td>{{ flight.departure }}</td>
@@ -19,10 +24,12 @@
     <td>{{ flight.arrival_time }}</td>
     <td>{{ flight.discounted_price|default:flight.original_price }}</td>
     <td>{{ flight.available_seats }}</td>
-    <td><a href="{% url 'seat_selection' flight.id %}">Book</a></td>
+    <td><a href="{% url 'seat_selection' flight.id %}" class="btn btn-compact">Book</a></td>
 </tr>
 {% empty %}
-<tr><td colspan="7">No flights found</td></tr>
+<tr><td colspan="7" class="muted center">No flights found</td></tr>
 {% endfor %}
+</tbody>
 </table>
+</div>
 {% endblock %}

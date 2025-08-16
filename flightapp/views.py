@@ -3,6 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from .forms import FlightSearchForm, SeatSelectionForm, PaymentForm
 from .models import Location, Ticket, Booking, Notice
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+from .models import Booking
 
 
 def home_view(request):
@@ -35,6 +38,7 @@ def home_view(request):
         ).order_by('-booking_date').first()
         if last_booking:
             last_flight = last_booking.ticket
+
 
     if request.method == 'POST' and form.is_valid():
         departure = form.cleaned_data['departure']
@@ -108,3 +112,16 @@ def payment_view(request, booking_id):
 def booking_confirmed_view(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
     return render(request, 'flightapp/booking_confirmed.html', {'booking': booking})
+
+
+@login_required
+def cancel_booking_view(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id, user=request.user)
+    if request.method == "POST" and booking.confirmed:
+        booking.confirmed = False
+        booking.save()
+        # Optionally restore ticket's available seats
+        booking.ticket.available_seats += booking.seats_booked
+        booking.ticket.save()
+        messages.success(request, "Your booking has been cancelled.")
+    return redirect('profile')

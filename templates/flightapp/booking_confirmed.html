@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Booking Confirmed!</h2>
-<p>Booking ID: {{ booking.id }}</p>
-<p>Flight: {{ booking.ticket }}</p>
-<p>Seats: {{ booking.seats_booked }}</p>
-<p>Status: {{ booking.confirmed|yesno:"Confirmed,Pending" }}</p>
-<a href="{% url 'home' %}">Return Home</a>
+<h2 class="page-title">Booking Confirmed!</h2>
+
+<div class="card inline-info">
+  <p><strong>Booking ID:</strong> {{ booking.id }}</p>
+  <p><strong>Flight:</strong> {{ booking.ticket }}</p>
+  <p><strong>Seats:</strong> {{ booking.seats_booked }}</p>
+  <p><strong>Status:</strong> {{ booking.confirmed|yesno:"Confirmed,Pending" }}</p>
+</div>
+
+<a href="{% url 'home' %}" class="btn">Return Home</a>
 {% endblock %}

@@ -1,3 +1,4 @@
+<!-- base.html -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -5,9 +6,11 @@
     <meta charset="UTF-8">
     <title>BookinFly</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <!-- Font Awesome for icons -->
+    {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> {% endcomment %}
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
 </head>
 <body>
 
@@ -29,6 +32,10 @@
             <a href="{% url 'login' %}">Login</a>
             <a href="{% url 'signup' %}">Signup</a>
         {% endif %}
+    </div>
+    
+    <div class="hamburger">
+        <i class="fas fa-bars"></i>
     </div>
 </nav>
 
