@@ -2,10 +2,9 @@ from django import forms
 from .models import Location, Ticket
 
 class FlightSearchForm(forms.Form):
-    departure = forms.ModelChoiceField(queryset=Location.objects.all(), label="From")
-    destination = forms.ModelChoiceField(queryset=Location.objects.all(), label="To")
-    date = forms.DateField(widget=forms.SelectDateWidget)
-
+    departure = forms.ModelChoiceField(queryset=Location.objects.all())
+    destination = forms.ModelChoiceField(queryset=Location.objects.all())
+    date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
 
 class SeatSelectionForm(forms.Form):
     seats = forms.IntegerField(min_value=1, max_value=4, label="Number of Seats")
@@ -37,6 +36,6 @@ class TicketForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Set correct display format for existing values
+        # Set correct display/input format for existing values
         for field in ['departure_time', 'arrival_time']:
             self.fields[field].input_formats = ['%Y-%m-%dT%H:%M']

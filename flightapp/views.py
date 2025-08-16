@@ -4,9 +4,7 @@ from django.db.models import Count
 from .forms import FlightSearchForm, SeatSelectionForm, PaymentForm
 from .models import Location, Ticket, Booking, Notice
 
-# ========================
-# HOME PAGE VIEW (SEARCH + NOTICES + USER'S TRAVEL HISTORY)
-# ========================
+
 def home_view(request):
     form = FlightSearchForm(request.POST or None)
     search_results = None
@@ -38,17 +36,25 @@ def home_view(request):
         if last_booking:
             last_flight = last_booking.ticket
 
-    # Process search form
     if request.method == 'POST' and form.is_valid():
         departure = form.cleaned_data['departure']
         destination = form.cleaned_data['destination']
         date = form.cleaned_data['date']
-        search_results = Ticket.objects.filter(
+
+        print(f"Search input - Departure: {departure}, Destination: {destination}, Date: {date}")
+
+        # Query tickets; if date is None, omit date filter (optional search)
+        ticket_query = Ticket.objects.filter(
             departure=departure,
             destination=destination,
-            departure_time__date=date,
             available_seats__gt=0
-        ).order_by('departure_time')
+        )
+        if date:
+            ticket_query = ticket_query.filter(departure_time__date=date)
+
+        search_results = ticket_query.order_by('departure_time')
+
+        print(f"Search results count: {search_results.count()}")
 
     context = {
         'form': form,
@@ -59,9 +65,6 @@ def home_view(request):
     }
     return render(request, 'home.html', context)
 
-# ========================
-# FLIGHT BOOKING PROCESS VIEWS
-# ========================
 
 @login_required
 def seat_selection_view(request, ticket_id):

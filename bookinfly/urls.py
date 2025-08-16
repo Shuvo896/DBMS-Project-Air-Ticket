@@ -25,7 +25,7 @@ urlpatterns = [
     path('', flight_views.home_view, name='home'),   # Home page with search + notices
     path('user/', include('userapp.urls')),          # Auth/profile-related routes
     path('flights/', include('flightapp.urls')),     # Flight booking routes
-    path('admin-panel/', include('adminapp.urls')),
+    # path('admin-panel/', include('adminapp.urls')),
 ]
 
 if settings.DEBUG:

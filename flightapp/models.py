@@ -18,16 +18,12 @@ class Location(models.Model):
 class Ticket(models.Model):
     departure = models.ForeignKey('Location', related_name='departures', on_delete=models.CASCADE)
     destination = models.ForeignKey('Location', related_name='destinations', on_delete=models.CASCADE)
-
-    flight_no = models.CharField(max_length=20, unique=True)  # Added flight number
-    airline_name = models.CharField(max_length=100)  # Added airline name
-
+    flight_no = models.CharField(max_length=20, unique=True)
+    airline_name = models.CharField(max_length=100)
     departure_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
-
     original_price = models.DecimalField(max_digits=10, decimal_places=2)
     discounted_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-
     total_seats = models.IntegerField()
     available_seats = models.IntegerField()
 

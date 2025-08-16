@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
+
 {% block content %}
   <h2>User Profile</h2>
+
   <p><strong>Email:</strong> {{ user.email }}</p>
   <p><strong>Username:</strong> {{ user.username }}</p>
   <p><strong>Phone No:</strong> {{ user.phone_no }}</p>
@@ -10,9 +12,48 @@
   <p><strong>Address:</strong> {{ user.address }}</p>
   <p><strong>Postal Code:</strong> {{ user.postal_code }}</p>
   <p><strong>Passport No:</strong> {{ user.passport_no }}</p>
+
   {% if user.profile_picture %}
     <img src="{{ user.profile_picture.url }}" alt="Profile Picture" width="150" height="150">
   {% endif %}
+
   <p><a href="{% url 'edit_profile' %}">Edit Profile</a></p>
   <p><a href="{% url 'logout' %}">Logout</a></p>
+
+  <hr>
+
+  <h3>Previous Bookings</h3>
+
+  {% if bookings %}
+    <table>
+      <thead>
+        <tr>
+          <th>Flight Number</th>
+          <th>Airline</th>
+          <th>Departure</th>
+          <th>Destination</th>
+          <th>Departure Time</th>
+          <th>Seats Booked</th>
+          <th>Booking Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for booking in bookings %}
+          <tr>
+            <td>{{ booking.ticket.flight_no }}</td>
+            <td>{{ booking.ticket.airline_name }}</td>
+            <td>{{ booking.ticket.departure }}</td>
+            <td>{{ booking.ticket.destination }}</td>
+            <td>{{ booking.ticket.departure_time|date:"Y-m-d H:i" }}</td>
+            <td>{{ booking.seats_booked }}</td>
+            <td>{{ booking.booking_date|date:"Y-m-d H:i" }}</td>
+            <td>{% if booking.confirmed %}Confirmed{% else %}Pending{% endif %}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>You have no previous bookings.</p>
+  {% endif %}
 {% endblock %}
