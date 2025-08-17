@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Flight Ticket</title>
+    <style>
+        body { font-family: 'DejaVu Sans', Arial, sans-serif; margin: 2em; background: #f2faf9;}
+        .ticket-card { border-radius: 18px; background: #fff; padding: 28px 2em; box-shadow: 0 5px 18px rgba(0,0,0,0.08); width: 90%; margin: 0 auto; }
+        h2 { color: #298056;}
+        table { width: 100%; font-size: 1rem; }
+        td { padding: 6px 12px; }
+        .badge { display: inline-block; background: #27ae60; color: #fff; padding: 2px 10px; border-radius: 8px; font-size: 0.95em;}
+        .pending { background: #e67e22;}
+    </style>
+</head>
+<body>
+    <div class="ticket-card">
+        <h2>Flight Ticket Confirmation</h2>
+        <hr>
+        <table>
+            <tr>
+                <td><strong>Booking ID:</strong></td>
+                <td>{{ booking.id }}</td>
+            </tr>
+            <tr>
+                <td><strong>Flight:</strong></td>
+                <td>{{ booking.ticket.flight_no }} ({{ booking.ticket.airline_name }})</td>
+            </tr>
+            <tr>
+                <td><strong>Departure:</strong></td>
+                <td>{{ booking.ticket.departure }}<br>{{ booking.ticket.departure_time|date:"D, M d, Y H:i" }}</td>
+            </tr>
+            <tr>
+                <td><strong>Destination:</strong></td>
+                <td>{{ booking.ticket.destination }}<br>{{ booking.ticket.arrival_time|date:"D, M d, Y H:i" }}</td>
+            </tr>
+            <tr>
+                <td><strong>Seats Booked:</strong></td>
+                <td>{{ booking.seats_booked }}</td>
+            </tr>
+            <tr>
+                <td><strong>Status:</strong></td>
+                <td>
+                    {% if booking.confirmed %}
+                        <span class="badge">Confirmed</span>
+                    {% else %}
+                        <span class="badge pending">Pending</span>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Total Paid:</strong></td>
+                <td>
+                    {% load static %}
+                    {% if booking.ticket.discounted_price %}
+                        {{ booking.ticket.discounted_price }} x {{ booking.seats_booked }} =
+                        {% widthratio booking.ticket.discounted_price 1 booking.seats_booked %}
+                    {% else %}
+                        {{ booking.ticket.original_price }} x {{ booking.seats_booked }} =
+                        {% widthratio booking.ticket.original_price 1 booking.seats_booked %}
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+        <hr>
+        <small style="color:#888;">
+            This ticket is issued by BookinFly. Please arrive at the airport at least 2 hours before departure.<br>
+            Powered by BookinFly &copy; {{ now|date:"Y" }}.
+        </small>
+    </div>
+</body>
+</html>

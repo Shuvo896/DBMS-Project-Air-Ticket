@@ -1,14 +1,36 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2 class="page-title">Payment for Booking ({{ booking.ticket }})</h2>
 
-<div class="card inline-info">
-  <p><strong>Total Amount:</strong> {{ booking.ticket.discounted_price|default:booking.ticket.original_price|floatformat:2 }}</p>
+<h2 class="page-title text-center" style="margin-bottom: 2rem; color: #2c974b; font-weight: 700;">
+    Payment for Booking ({{ booking.ticket.flight_no }})
+</h2>
+
+<div style="text-align: center; margin-bottom: 2.5rem;">
+    <span style="font-size: 2.8rem; font-weight: 900; color: #298056;">
+        {% if booking.ticket.discounted_price %}
+            {% widthratio booking.ticket.discounted_price 1 booking.seats_booked %}
+        {% else %}
+            {% widthratio booking.ticket.original_price 1 booking.seats_booked %}
+        {% endif %}
+        <small style="font-size: 1.2rem; vertical-align: middle;">USD</small>
+    </span>
 </div>
 
-<form method="post" class="card form-page">
+<div class="card inline-info" style="padding: 1rem; margin-bottom: 1.5rem; background-color: #f0f9f5; border-radius: 10px;">
+    <p><strong>Total Amount to be Paid:</strong></p>
+    <p style="font-size: 1.3rem; color: #2c974b;">
+        {% if booking.ticket.discounted_price %}
+            {{ booking.ticket.discounted_price }} x {{ booking.seats_booked }}
+        {% else %}
+            {{ booking.ticket.original_price }} x {{ booking.seats_booked }}
+        {% endif %}
+    </p>
+</div>
+
+<form method="post" class="card form-page" style="padding: 1rem; border-radius: 10px;">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn">Confirm Payment</button>
+    <button type="submit" class="btn btn-primary">Confirm Payment</button>
 </form>
+
 {% endblock %}

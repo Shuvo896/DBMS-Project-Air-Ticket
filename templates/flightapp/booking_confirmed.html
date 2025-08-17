@@ -1,13 +1,79 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2 class="page-title">Booking Confirmed!</h2>
 
-<div class="card inline-info">
-  <p><strong>Booking ID:</strong> {{ booking.id }}</p>
-  <p><strong>Flight:</strong> {{ booking.ticket }}</p>
-  <p><strong>Seats:</strong> {{ booking.seats_booked }}</p>
-  <p><strong>Status:</strong> {{ booking.confirmed|yesno:"Confirmed,Pending" }}</p>
+<div class="container mt-5" style="max-width: 700px;">
+    <div class="text-center mb-5">
+        <h2 class="page-title" style="color: #2c974b; font-weight: 700;">Booking Confirmed!</h2>
+        <p class="lead text-secondary" style="font-size: 1.15rem;">Your flight booking was successful. Here are your booking details:</p>
+    </div>
+
+    <div class="card shadow p-4 mb-5" style="border-radius: 15px; background-color: #f9fef9;">
+        <dl class="row mb-0" style="font-size: 1rem;">
+            <dt class="col-sm-4 text-end fw-bold">Booking ID:</dt>
+            <dd class="col-sm-8">{{ booking.id }}</dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Flight Number:</dt>
+            <dd class="col-sm-8">{{ booking.ticket.flight_no }}</dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Airline:</dt>
+            <dd class="col-sm-8">{{ booking.ticket.airline_name }}</dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Departure:</dt>
+            <dd class="col-sm-8">
+                <strong>{{ booking.ticket.departure }}</strong><br>
+                {{ booking.ticket.departure_time|date:"D, M d, Y H:i" }}
+            </dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Destination:</dt>
+            <dd class="col-sm-8">
+                <strong>{{ booking.ticket.destination }}</strong><br>
+                {{ booking.ticket.arrival_time|date:"D, M d, Y H:i" }}
+            </dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Seats Booked:</dt>
+            <dd class="col-sm-8">{{ booking.seats_booked }}</dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Status:</dt>
+            <dd class="col-sm-8">
+                {% if booking.confirmed %}
+                    <span class="badge bg-success px-3 py-2" style="font-size: 1rem;">Confirmed</span>
+                {% else %}
+                    <span class="badge bg-warning text-dark px-3 py-2" style="font-size: 1rem;">Pending</span>
+                {% endif %}
+            </dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Price per Seat:</dt>
+            <dd class="col-sm-8">
+                {% if booking.ticket.discounted_price %}
+                    <del class="text-muted">{{ booking.ticket.original_price }}</del>
+                    <span style="color: #27ae60;">{{ booking.ticket.discounted_price }}</span>
+                {% else %}
+                    {{ booking.ticket.original_price }}
+                {% endif %}
+            </dd>
+
+            <dt class="col-sm-4 text-end fw-bold">Total Paid:</dt>
+            <dd class="col-sm-8">
+                {% load static %}
+                {% if booking.ticket.discounted_price %}
+                    {{ booking.ticket.discounted_price }} × {{ booking.seats_booked }} =
+                    {% widthratio booking.ticket.discounted_price 1 booking.seats_booked %}
+                {% else %}
+                    {{ booking.ticket.original_price }} × {{ booking.seats_booked }} =
+                    {% widthratio booking.ticket.original_price 1 booking.seats_booked %}
+                {% endif %}
+            </dd>
+        </dl>
+    </div>
+
+    <div class="d-flex justify-content-center gap-3">
+        <a href="{% url 'download_booking_pdf' booking.id %}" class="btn btn-success px-4 py-2 shadow-sm" style="font-weight: 600;">
+            <i class="fas fa-file-pdf me-2"></i> Download PDF Ticket
+        </a>
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary px-4 py-2 shadow-sm" style="font-weight: 600;">
+            Return Home
+        </a>
+    </div>
 </div>
 
-<a href="{% url 'home' %}" class="btn">Return Home</a>
 {% endblock %}

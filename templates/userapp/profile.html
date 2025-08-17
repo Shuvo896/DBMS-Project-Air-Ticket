@@ -1,71 +1,74 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2 class="page-title">User Profile</h2>
+<div class="dashboard-container">
 
-  <div class="grid-2">
-    <div class="card">
-      <p><strong>Email:</strong> {{ user.email }}</p>
-      <p><strong>Username:</strong> {{ user.username }}</p>
-      <p><strong>Phone No:</strong> {{ user.phone_no }}</p>
-      <p><strong>Gender:</strong> {{ user.gender }}</p>
-      <p><strong>Date of Birth:</strong> {{ user.date_of_birth }}</p>
-      <p><strong>Nationality:</strong> {{ user.nationality }}</p>
-      <p><strong>Address:</strong> {{ user.address }}</p>
-      <p><strong>Postal Code:</strong> {{ user.postal_code }}</p>
-      <p><strong>Passport No:</strong> {{ user.passport_no }}</p>
-
-      <div class="actions">
-        <a href="{% url 'edit_profile' %}" class="btn">Edit Profile</a>
-        <a href="{% url 'logout' %}" class="btn btn-outline">Logout</a>
-      </div>
-    </div>
-
-    <div class="card center">
+  <!-- Profile Picture & Header -->
+  <div class="profile-header">
+    <div class="profile-pic">
       {% if user.profile_picture %}
-        <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="avatar-lg">
+        <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
       {% else %}
         <div class="avatar-placeholder">👤</div>
       {% endif %}
     </div>
+    <h2 class="profile-name">{{ user.username }}</h2>
+    <p class="profile-email">{{ user.email }}</p>
+    <div class="profile-actions">
+      <a href="{% url 'edit_profile' %}" class="btn">Edit Profile</a>
+      <a href="{% url 'logout' %}" class="btn btn-outline">Logout</a>
+    </div>
   </div>
 
-  <hr class="soft">
-
-  <h3 class="section-title">Previous Bookings</h3>
-
-  {% if bookings %}
-    <div class="table-wrap">
-      <table class="flight-table">
-        <thead>
-          <tr>
-            <th>Flight Number</th>
-            <th>Airline</th>
-            <th>Departure</th>
-            <th>Destination</th>
-            <th>Departure Time</th>
-            <th>Seats Booked</th>
-            <th>Booking Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-        {% for booking in bookings %}
-          <tr>
-            <td>{{ booking.ticket.flight_no }}</td>
-            <td>{{ booking.ticket.airline_name }}</td>
-            <td>{{ booking.ticket.departure }}</td>
-            <td>{{ booking.ticket.destination }}</td>
-            <td>{{ booking.ticket.departure_time|date:"Y-m-d H:i" }}</td>
-            <td>{{ booking.seats_booked }}</td>
-            <td>{{ booking.booking_date|date:"Y-m-d H:i" }}</td>
-            <td>{% if booking.confirmed %}Confirmed{% else %}Pending{% endif %}</td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+  <!-- Personal Info Cards -->
+  <div class="info-cards">
+    <div class="info-card">
+      <h3>Contact</h3>
+      <p><strong>Phone:</strong> {{ user.phone_no }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Address:</strong> {{ user.address }}</p>
+      <p><strong>Postal Code:</strong> {{ user.postal_code }}</p>
     </div>
-  {% else %}
-    <p class="muted">You have no previous bookings.</p>
-  {% endif %}
+    <div class="info-card">
+      <h3>Identity</h3>
+      <p><strong>Gender:</strong> {{ user.gender }}</p>
+      <p><strong>Date of Birth:</strong> {{ user.date_of_birth }}</p>
+      <p><strong>Nationality:</strong> {{ user.nationality }}</p>
+      <p><strong>Passport No:</strong> {{ user.passport_no }}</p>
+    </div>
+  </div>
+
+  <!-- Previous Bookings -->
+  <div class="bookings-section">
+    <h3>Previous Bookings</h3>
+    {% if bookings %}
+      <div class="bookings-grid">
+        {% for booking in bookings %}
+        <div class="booking-card">
+          <h4>{{ booking.ticket.airline_name }} ({{ booking.ticket.flight_no }})</h4>
+          <p><strong>From:</strong> {{ booking.ticket.departure }} <strong>To:</strong> {{ booking.ticket.destination }}</p>
+          <p><strong>Departure:</strong> {{ booking.ticket.departure_time|date:"Y-m-d H:i" }}</p>
+          <p><strong>Seats:</strong> {{ booking.seats_booked }}</p>
+          <p><strong>Status:</strong> 
+            {% if booking.confirmed %}
+              <span class="status confirmed">Confirmed</span>
+            {% else %}
+              <span class="status cancelled">Cancelled</span>
+            {% endif %}
+          </p>
+          {% if booking.confirmed %}
+            <form method="post" action="{% url 'cancel_booking' booking.id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn-cancel" onclick="return confirm('Are you sure you want to cancel this booking?');">Cancel</button>
+            </form>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="muted">You have no previous bookings.</p>
+    {% endif %}
+  </div>
+
+</div>
 {% endblock %}

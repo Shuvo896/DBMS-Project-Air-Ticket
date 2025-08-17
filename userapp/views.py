@@ -24,9 +24,15 @@ def login_view(request):
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
         if form.is_valid():
-            user = form.cleaned_data.get('user')
-            login(request, user)
-            return redirect('home')
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
+            from django.contrib.auth import authenticate, login
+            user = authenticate(request, email=email, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                form.add_error(None, "Invalid credentials")
     else:
         form = UserLoginForm()
     return render(request, 'userapp/login.html', {'form': form})

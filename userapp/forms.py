@@ -26,7 +26,7 @@ class UserCreationForm(forms.ModelForm):
         return user
 
 class UserLoginForm(forms.Form):
-    email = forms.EmailField(label='Email', widget=forms.EmailInput)
+    email = forms.EmailField(label="Email")
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
 
     def clean(self):
@@ -38,7 +38,7 @@ class UserLoginForm(forms.Form):
             user = authenticate(username=email, password=password)
             if not user:
                 raise forms.ValidationError("Invalid login credentials")
-            cleaned_data['user'] = user  # Save user for use in view
+            cleaned_data['user'] = user
         return cleaned_data
 
 class UserUpdateForm(forms.ModelForm):

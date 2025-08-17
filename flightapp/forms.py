@@ -4,7 +4,12 @@ from .models import Location, Ticket
 class FlightSearchForm(forms.Form):
     departure = forms.ModelChoiceField(queryset=Location.objects.all())
     destination = forms.ModelChoiceField(queryset=Location.objects.all())
-    date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    date = forms.DateField(
+        required=False,
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        input_formats=['%Y-%m-%d']
+    )
+
 
 class SeatSelectionForm(forms.Form):
     seats = forms.IntegerField(min_value=1, max_value=4, label="Number of Seats")
