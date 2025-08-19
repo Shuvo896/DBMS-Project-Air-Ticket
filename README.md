@@ -14,30 +14,30 @@ Open **Git Bash** in your desired folder and run:
 ```
 git clone https://github.com/Shuvo896/DBMS-Project-Air-Ticket
 ```
-2. Navigate to the Project Directory
+# 2.Open a new terminal and navigate to the Project Directory
 
 ```
 cd DBMS-Project-Air-Ticket
 ```
-3. Set Up the Virtual Environment
-Open a new CMD or restart your IDE, then run:
+# 3. Set Up the Virtual Environment
+Open a new CMD or restart your IDE, then run (make sure you are at directory DBMS-Project-Air-Ticket):
 ```
 pipenv shell
 pipenv install
 ```
-4. Set Up the Database
+# 4. Set Up the Database
 Start MySQL from XAMPP
 
 Open the MySQL console and create the database:
 ```
 CREATE DATABASE bookinfly_db_test;
 ```
-5. Apply Migrations
+# 5. Apply Migrations
 ```
 python manage.py makemigrations
 python manage.py migrate
 ```
-6. Run the Development Server
+# 6. Run the Development Server
 ```
 python manage.py runserver
 ```
