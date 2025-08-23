@@ -1,13 +1,13 @@
 {
     "builds": [{
-        "src": "BookinFly/wsgi.py",
+        "src": "DBMS_Project/wsgi.py",
         "use": "@vercel/python",
         "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
     }],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "BookinFly/wsgi.py"
+            "dest": "DBMS_Project/wsgi.py"
         }
     ]
 }
